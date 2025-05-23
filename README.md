@@ -37,3 +37,12 @@
 ## PRO TIP
 
 Avoid modifying the input data directly. Work with copies or use auxiliary structures when necessary.
+
+
+## Patterns in DSA
+
+- Most of the patters are Nested loops.
+- Outer loops are generally for Rows and inner loops are for columns.
+- ![image](https://github.com/user-attachments/assets/bcb5c728-4ef0-4db3-8420-23b8c4dbd9be)
+- 
+
