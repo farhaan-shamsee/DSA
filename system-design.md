@@ -99,4 +99,63 @@ The formal definition of availability is: **Availability = Uptime / (Uptime + Do
 6. Use Caching Wisely: Caching can improve availability by reducing load on backend systems.
 7. Plan for Capacity: Ensure your system can handle both expected and unexpected load increases.
 
+## CAP Theorem
+
+The CAP theorem states that a distributed data store can only provide two of the following three guarantees at the same time:
+
+1. **Consistency**: Every read receives the most recent write or an error.
+2. **Availability**: Every request receives a response, without guarantee that it contains the most recent write.
+3. **Partition Tolerance**: The system continues to operate despite network partitions.
+
+**It is impossible for a distributed data store to simultaneously provide all three guarantees.**
+
+## 3 Pillars of CAP
+
+### Consistency
+
+Consistency ensures that every read receives the most recent write or an error. This means that all working nodes in a distributed system will return the same data at any given time.
+
+In a consistent distributed system, if you write data to node A, a read operation from node B will immediately reflect the write operation on node A.
+
+Consistency is crucial for applications where having the most up-to-date data is critical, such as financial systems, where a balance inquiry must reflect the most up-to-date state of an account.
+
+### Availability
+
+Availability guarantees that every request (read or write) receives a response, without ensuring that it contains the most recent write. This means that the system remains operational and responsive, even if the response from some of the nodes don’t reflect most up-to-date data.
+
+Availability is important for applications that need to remain operational at all times, such as online retail systems.
+
+### Partition Tolerance
+
+Partition Tolerance means that the system continues to function despite network partitions where nodes cannot communicate with each other.
+
+When there is a network partition, the system must choose between Consistency and Availability.
+
+## The CAP Trade-Off: Choosing 2 out of 3
+
+The CAP theorem asserts that in the presence of a network partition, a distributed system must choose between Consistency and Availability.
+
+### CP (Consistency and Partition Tolerance):
+
+- These systems prioritize consistency and can tolerate network partitions, but at the cost of availability. During a partition, the system may reject some requests to maintain consistency.
+
+- Traditional relational databases, such as MySQL and PostgreSQL, when configured for strong consistency, prioritize consistency over availability during network partitions.
+
+- Banking systems typically prioritize consistency over availability since data accuracy is more critical than availability during network issues.
+
+- Consider an ATM network for a bank. When you withdraw money, the system must ensure that your balance is updated accurately across all nodes (consistency) to prevent overdrafts or other errors.
+
+### AP (Availability and Partition Tolerance):
+
+- These systems ensure availability and can tolerate network partitions, but at the cost of consistency. During a partition, different nodes may return different values for the same data.
+
+- NoSQL databases like Cassandra and DynamoDB are designed to be highly available and partition-tolerant, potentially at the cost of strong consistency.
+
+- Amazon's shopping cart system is designed to always accept items, prioritizing availability. When you add items to your Amazon cart, the action almost never fails, even during high traffic periods like Black Friday.
+
+### CA (Consistency and Availability):
+
+- In the absence of partitions, a system can be both consistent and available. However, network partitions are inevitable in distributed systems, making this combination impractical.
+
+- Example Systems: Single-node databases can provide both consistency and availability but aren't partition-tolerant. In a distributed setting, this combination is theoretically impossible.
 
