@@ -225,3 +225,43 @@ In other words, once a transaction says “done,” the data is permanently reco
 1. Transaction Logs (Write-Ahead Logging)
 2. Replication / Redundancy
 3. Backups
+
+
+## 15 Types of Databases and When to Use Them
+
+1. **Relational Databases (RDBMS)**: 
+   1. Relational databases structure data into one or more tables of rows and columns, with a unique key identifying each row. Rows in a table can be linked to rows in other tables through foreign keys, establishing a relationship between them.
+   2. Examples: MySQL, PostgreSQL, Oracle, Microsoft SQL Server.
+2. **Key-Value Stores**:
+   1. Key-value stores are NoSQL databases that store data as key-value pairs providing fast retrieval of values based on unique keys.
+   2. They are primarily used when the data model is based on key-value pairs and requires high scalability, availability and throughput.
+   3. However, they may not be the best fit for applications that require complex querying, data relationships, or strong consistency guarantees.
+   4. Examples: Redis, Amazon DynamoDB.
+   5. Common use cases:
+      1. Session Storage: Storing and managing user session information such as user preferences, shopping carts or authentication tokens in web applications.
+      2. Caching: Implementing caching mechanisms to improve the performance of web applications by storing frequently accessed data in memory for rapid retrieval.
+      3. Real-time data processing: Key-value stores can quickly store and retrieve data for real-time analytics, event processing, or message queues.
+3. **Document Stores**:
+   1. Document databases, a subset of the broader NoSQL family, are designed to store, manage, and retrieve document-oriented information.
+   2. These databases handle data in a semi-structured format, typically JSON, XML, or BSON, allowing for a more flexible schema than traditional relational databases.
+   3. Examples: MongoDB, CouchDB, Amazon DocumentDB.
+   4. Common use cases:
+      1. Content Management Systems (CMS): Storing and managing content such as articles, blog posts, and user-generated content in a flexible schema.
+      2. E-commerce Applications: Managing product catalogs, user profiles, and order histories with varying attributes.
+      3. Real-time Analytics: Storing and analyzing large volumes of semi-structured data for real-time insights.
+4. **Graph Databases**:
+   1. Graph databases are a type of NoSQL database that specialize in storing, managing, and querying complex networks of interconnected data.
+   2. They are very useful in applications like social networks and recommendation engines.
+   3. Examples: Neo4j, Amazon Neptune.
+   4. Common use cases:
+      1. Social Networks: Storing and analyzing relationships between users, such as friendships, followers, and interactions.
+      2. Recommendation Systems: Analyzing user preferences and behaviors to provide personalized recommendations based on connections and similarities.
+      3. Fraud Detection: Identifying suspicious patterns and relationships in financial transactions or user activities.
+5. **In-Memory Databases**:
+    1. In-memory databases store data primarily in the main memory (RAM) rather than on disk, allowing for extremely fast data access and processing.
+    2. They are ideal for applications requiring real-time data processing and low-latency access.
+    3. Examples: Redis, Memcached, Apache Ignite.
+    4. Common use cases:
+        1. Caching: Storing frequently accessed data in memory to reduce latency and improve application performance.
+        2. Real-time Analytics: Processing large volumes of data in real-time for analytics, monitoring, or event processing.
+        3. Session Management: Managing user sessions in web applications for quick access to session data.
