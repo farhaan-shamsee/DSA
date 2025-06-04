@@ -159,3 +159,69 @@ The CAP theorem asserts that in the presence of a network partition, a distribut
 
 - Example Systems: Single-node databases can provide both consistency and availability but aren't partition-tolerant. In a distributed setting, this combination is theoretically impossible.
 
+## ACID Transactions
+
+ACID is an acronym that refers to the set of 4 key properties that define a transaction: Atomicity, Consistency, Isolation, and Durability.
+
+### 1. Atomicity
+
+Atomicity ensures that a transaction—comprising multiple operations—executes as a single and indivisible unit of work: it either fully succeeds (commits) or fully fails (rolls back).
+
+If any part of the transaction fails, the entire transaction is rolled back, and the database is restored to a state exactly as it was before the transaction began.
+
+Example: In a money transfer transaction, if the credit step fails, the debit step cannot be allowed to stand on its own. This prevents inconsistent states like “money disappearing” from one account without showing up in another.
+
+#### How Databases Implement Atomicity:
+
+1. Transaction Logs (Write-Ahead Logs):
+   1. Every operation is recorded in a write-ahead log before it’s applied to the actual database table.
+   2. If a failure occurs, the database uses this log to undo incomplete changes.
+2. Commit/Rollback Protocols:
+   1. Databases provide commands like BEGIN TRANSACTION, COMMIT, and ROLLBACK
+   2. Any changes made between BEGIN TRANSACTION and COMMIT are considered “in-progress” and won’t be permanently applied unless the transaction commits successfully.
+   3. If any step fails, or if you explicitly issue a ROLLBACK, all changes since the start of the transaction are undone.
+
+### 2. Consistency
+
+Consistency in the context of ACID transactions ensures that any transaction will bring the database from one valid state to another valid state—never leaving it in a broken or “invalid” state.
+
+It means that all the data integrity constraints, such as primary key constraints (no duplicate IDs), foreign key constraints (related records must exist in parent tables), and check constraints (age can’t be negative), are satisfied before and after the transaction.
+
+If a transaction tries to violate these rules, it will not be committed, and the database will revert to its previous state.
+
+#### How Databases Implement Consistency:
+
+1. Database Schema Constraints:
+   1. NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK
+2. Triggers and Stored Procedures: Triggers can automatically check additional rules whenever rows are inserted, updated, or deleted.
+3. Application-Level Safeguards: While the database enforces constraints at a lower level, applications often add extra checks—like ensuring business rules are followed or data is validated before it even reaches the database layer.
+
+### 3. Isolation
+
+Isolation ensures that concurrently running transactions do not interfere with each other’s intermediate states.
+
+Essentially, while a transaction is in progress, its updates (or intermediate data) remain invisible to other ongoing transactions—giving the illusion that each transaction is running sequentially, one at a time.
+
+This prevents issues like dirty reads (reading uncommitted data), non-repeatable reads (data changes between reads), and phantom reads (new rows appearing in subsequent reads).
+
+#### How Databases Implement Isolation:
+
+1. Locking Mechanisms:
+   1. Row-Level Locks: Only the rows being modified are locked, allowing other transactions to read unaffected rows.
+   2. Table-Level Locks: Locks the entire table, preventing any other transaction from reading or writing until the lock is released.
+   3. Can lead to blocking or deadlocks if multiple transactions compete for the same locks.
+2. Multi-Version Concurrency Control (MVCC):
+   1. Optimistic Concurrency Control: Instead of blocking reads, the database keeps multiple versions of a row. Readers see a consistent snapshot of data (like a point-in-time view), while writers create a new version of the row when updating.
+3. Snapshot Isolation: A form of MVCC where each transaction sees data as it was at the start (or a consistent point) of the transaction.
+
+### 4. Durability
+
+Durability ensures that once a transaction has been committed, the changes it made will survive, even in the face of power failures, crashes, or other catastrophic events.
+
+In other words, once a transaction says “done,” the data is permanently recorded and cannot simply disappear.
+
+#### How Databases Implement Durability:
+
+1. Transaction Logs (Write-Ahead Logging)
+2. Replication / Redundancy
+3. Backups
